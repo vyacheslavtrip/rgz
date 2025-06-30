@@ -7,11 +7,9 @@
 
 static constexpr size_t BLOCK_SIZE = 64;  // 512 bits per block
 
-// ChaCha20 constants
 static const char* constants = "expand 32-byte k";
 
 static void setup_state(uint32_t state[16], const std::vector<uint8_t>& key, uint32_t counter, const std::vector<uint8_t>& nonce) {
-    // Constants
     for (int i = 0; i < 4; ++i) {
         state[i] = ((uint32_t)constants[4*i]) |
                    ((uint32_t)constants[4*i + 1] << 8) |
@@ -24,7 +22,6 @@ static void setup_state(uint32_t state[16], const std::vector<uint8_t>& key, uin
         state[4 + i] = key[4*i] | (key[4*i + 1] << 8) | (key[4*i + 2] << 16) | (key[4*i + 3] << 24);
     }
 
-    // Counter
     state[12] = counter;
 
     // Nonce: 12 bytes
@@ -34,14 +31,12 @@ static void setup_state(uint32_t state[16], const std::vector<uint8_t>& key, uin
 }
 
 void ChaCha20::process_stream(std::istream& in, std::ostream& out, const std::string& key_str) {
-    // Key length must be 32 bytes
     if (key_str.size() < 32) {
         throw std::runtime_error("Key too short for ChaCha20 (need 32 bytes)");
     }
 
     std::vector<uint8_t> key(key_str.begin(), key_str.begin() + 32);
 
-    // For nonce, use 12 zero bytes (or could be generated / passed)
     std::vector<uint8_t> nonce(12, 0);
 
     uint32_t counter = 0;
@@ -52,7 +47,6 @@ void ChaCha20::process_stream(std::istream& in, std::ostream& out, const std::st
         std::streamsize read_bytes = in.gcount();
         if (read_bytes == 0) break;
 
-        // Prepare state and generate keystream
         uint32_t state[16];
         uint32_t keystream[16];
         setup_state(state, key, counter++, nonce);
