@@ -31,11 +31,10 @@ void chacha20_block(uint32_t output[16], const uint32_t input[16]) {
     }
 }
 
-// XOR data buffer with key stream buffer (of same length)
 void xor_data(std::vector<uint8_t>& data, const std::vector<uint8_t>& key_stream) {
     for (size_t i = 0; i < data.size(); ++i) {
         data[i] ^= key_stream[i];
     }
 }
 
-}  // namespace chacha20_utils
+}
