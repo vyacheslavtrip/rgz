@@ -1,0 +1,14 @@
+/build/
+/prog
+/test/
+
+output/
+*.bin
+*.key
+
+.vscode/
+*.swp
+*.swo
+*.DS_Store
+
+*.log
