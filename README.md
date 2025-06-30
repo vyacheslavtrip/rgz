@@ -22,7 +22,7 @@ make
 ./prog -d -rbbit input_file key_file   # Decrypt with Rabbit\n";
 ```
 
-## Exemple
+## Example
 
 ```bash
 ./prog -k -xtea key
